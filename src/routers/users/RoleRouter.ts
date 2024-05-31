@@ -10,6 +10,7 @@ const BASE_ROUTE = '/role';
 enum Routes {
     GET_ALL = '/get-all',
     CREATE = '/create',
+    UPDATE = '/update',
 }
 export class RoleRouter {
     private roleSequelize: RoleSequelize = new RoleSequelize();
@@ -19,7 +20,8 @@ export class RoleRouter {
     private validateValue: ValidateValuesMiddleware = new ValidateValuesMiddleware();
 
     public router(app: Router): void {
-        app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.roleController.getAllRole)
-        app.post(BASE_ROUTE + Routes.CREATE, this.verifyTokenMiddleware.authenticate, this.roleController.createNewRole);
+        app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.roleController.getAllRole)
+        app.post(BASE_ROUTE + Routes.CREATE, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.roleController.createNewRole);
+        app.post(BASE_ROUTE + Routes.UPDATE, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.roleController.updateRole);
     }
 }

@@ -2,12 +2,18 @@ import { Transaction } from "sequelize";
 import { UserInterface } from "../../interface/UserInterface";
 import { IUserRepository } from "../../repository/userRepository";
 import { UserModel } from "../model/UserModel";
+import { RoleModel } from "../model/RoleModel";
 
 export class UserSequelize implements IUserRepository {
 
     async findAllLists(): Promise<UserInterface[]> {
         const users = await UserModel.findAll({
-            attributes: { exclude: ['password', 'remember_token'] }
+            attributes: { exclude: ['password', 'remember_token'] },
+            include: [{
+                model: RoleModel,
+                as: 'role',
+                attributes: ['name']
+            }]
         });
         return users;
     }
@@ -32,4 +38,5 @@ export class UserSequelize implements IUserRepository {
         const user = await UserModel.findByPk(userId, { attributes: { exclude: ['password'] } });
         return user;
     }
+
 }

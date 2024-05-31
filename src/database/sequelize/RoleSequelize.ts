@@ -12,4 +12,21 @@ export class RoleSequelize implements IRoleRepository {
         const roles = await RoleModel.findAll();
         return roles
     }
+
+    async findRoleById(roleId: number): Promise<RoleInterface | null> {
+        const role = await RoleModel.findByPk(roleId);
+        return role;
+    }
+
+    async updateRole(name: string, roleId: number): Promise<void> {
+        await RoleModel.update(
+            { name },
+            {
+                where: {
+                    id: roleId
+                }
+            }
+        )
+        return;
+    }
 }

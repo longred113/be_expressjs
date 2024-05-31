@@ -1,6 +1,7 @@
 import { AllowNull, AutoIncrement, BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
 import { RoleModel } from "./RoleModel";
 
+
 @Table({
     tableName: 'users',
     timestamps: true,

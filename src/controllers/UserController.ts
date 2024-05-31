@@ -28,7 +28,6 @@ export class UserController {
     public register = async (req: Request, res: Response) => {
         try {
             const { name, email, password } = req.body;
-            console.log(1);
             const user = await this.userUseCase.register(name, email, password);
             return new SendResponse({ data: user, message: "User register successfully!" }).send(res);
         } catch (error) {

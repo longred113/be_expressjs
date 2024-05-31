@@ -26,7 +26,6 @@ export class UserUseCase {
     }
 
     async register(name: string, email: string, password: string): Promise<UserInterface> {
-        console.log(2);
         let checkedUser = await this.userRepository.findByEmail(email);
         if (checkedUser) {
             throw new RestError('Email already be used', 404);

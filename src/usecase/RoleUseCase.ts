@@ -14,4 +14,12 @@ export class RoleUseCase {
         return roles;
     }
 
+    async findRoleById(roleId: number): Promise<RoleInterface | null> {
+        const role = await this.roleRepository.findRoleById(roleId);
+        return role;
+    }
+
+    async adminUpdateRole(name: string, roleId: number): Promise<void> {
+        return await this.roleRepository.updateRole(name, roleId);
+    }
 }

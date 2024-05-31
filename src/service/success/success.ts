@@ -31,14 +31,14 @@ class SuccessResponse {
     constructor({
         status = TypeResponse.SUCCESS as string,
         code = StatusCode.SUCCESS,
-        data = null,
         message = '',
+        data = null,
         option = null
     }) {
         this.status = status;
         this.code = code || 200;
-        this.data = data || null;
         this.message = message || '';
+        this.data = data || null;
         this.option = option || null;
     }
 
@@ -52,7 +52,7 @@ class SuccessResponse {
 }
 
 export class SendResponse extends SuccessResponse {
-    constructor({ status, code, data, message, option }: Success) {
+    constructor({ status, code, message, data, option }: Success) {
         super({ status, code, data, message, option });
     }
 }

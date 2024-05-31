@@ -23,4 +23,14 @@ export class RoleController {
             return RestError.manageServerError(res, error, false);
         }
     }
+
+    public updateRole = async (req: Request, res: Response) => {
+        try {
+            const { name, roleId } = req.body;
+            await this.roleUseCase.adminUpdateRole(name, roleId);
+            return new SendResponse({ message: "Update role successfully!" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
 }
