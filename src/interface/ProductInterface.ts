@@ -1,10 +1,9 @@
 export interface ProductInterface {
-    id: number
     name: string
+    description: JSON
     price: number
     inventory_number: number
     producer: string
+    image: JSON
     categoryId: number
-    created_at: Date
-    updated_at: Date
 }

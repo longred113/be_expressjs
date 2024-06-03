@@ -1,4 +1,4 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Col } from "sequelize/types/utils";
 import { CategoryModel } from "./CategoryModel";
 
@@ -14,9 +14,9 @@ export class ProductModel extends Model {
     declare name: string
 
     @Column({
-        type: DataType.TEXT
+        type: DataType.JSON
     })
-    declare description: string
+    declare description: JSON
 
     @Column({
         type: DataType.INTEGER
@@ -32,6 +32,11 @@ export class ProductModel extends Model {
         type: DataType.STRING
     })
     declare producer: string
+
+    @Column({
+        type: DataType.JSON
+    })
+    declare image: JSON
 
     @Column({
         type: DataType.INTEGER
