@@ -26,7 +26,7 @@ export class RoleSequelize implements IRoleRepository {
                     id: roleId
                 }
             }
-        )
+        );
         return;
     }
 }

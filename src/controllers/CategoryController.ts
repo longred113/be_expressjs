@@ -34,4 +34,14 @@ export class CategoryController {
             return RestError.manageServerError(res, error, false);
         }
     }
+
+    // public updateCategory = async (req: Request, res: Response) => {
+    //     try {
+    //         const { name, categoryId } = req.body;
+    //         await this.CategoryUseCase.adminUpdateCategory(name, parseInt(categoryId, 10));
+    //         return new SendResponse({ message: "Update category successfully" }).send(res);
+    //     } catch (error) {
+    //         return RestError.manageServerError(res, error, false);
+    //     }
+    // }
 }
