@@ -21,7 +21,7 @@ export class ProductRouter {
     private productUseCase: ProductUseCase = new ProductUseCase(this.productSequelize);
     private productController: ProductController = new ProductController(this.productUseCase);
     public router(app: Router): void {
-        app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.productController.findAllProduct);
+        app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.productController.findAllProduct);
         app.post(BASE_ROUTE + Routes.CREATE, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, upload.array('image', 10), this.productController.createProduct);
         app.get(BASE_ROUTE + Routes.GET_PRODUCT_BY_CATEGORY, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.productController.findProductByCategory);
     }

@@ -44,4 +44,13 @@ export class UserController {
             return RestError.manageServerError(res, error, false);
         }
     }
+
+    public userLogout = async (req: Request, res: Response) => {
+        try {
+            const userId = (req as any).user.id;
+            // await this.userUseCase.userLogout(userId);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
 }

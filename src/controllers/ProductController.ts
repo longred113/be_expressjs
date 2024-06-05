@@ -19,7 +19,6 @@ export class ProductController {
     public createProduct = async (req: Request, res: Response) => {
         try {
             const files = req.files as Express.Multer.File[];
-            console.log(files);
             const image = await UploadToCloudinary(files, res);
             const product = await this.productUseCase.createProduct(req.body, image);
             return new SendResponse({ data: product, message: "Create new product successfully!" }).send(res);

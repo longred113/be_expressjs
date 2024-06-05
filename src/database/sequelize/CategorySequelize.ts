@@ -16,4 +16,16 @@ export class CategorySequelize implements ICategoryRepository {
         const role = await CategoryModel.findByPk(categoryId);
         return role;
     }
+
+    async updateCategory(name: string, categoryId: number): Promise<any> {
+        const category = await CategoryModel.update(
+            { name },
+            { where: { id: categoryId } }
+        );
+        return category;
+    }
+
+    async deleteCategory(categoryIds: number[]): Promise<any> {
+        return await CategoryModel.destroy({ where: { id: categoryIds } });
+    }
 }

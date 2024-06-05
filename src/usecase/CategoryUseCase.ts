@@ -15,4 +15,12 @@ export class CategoryUseCase {
     async findCategoryById(categoryId: number): Promise<CategoryInterface> {
         return await this.categoryRepository.findCategoryById(categoryId);
     }
+
+    async adminUpdateCategory(name: string, categoryId: number): Promise<any> {
+        return await this.categoryRepository.updateCategory(name, categoryId);
+    }
+
+    async deleteCategory(categoryIds: number[]): Promise<void> {
+        return await this.categoryRepository.deleteCategory(categoryIds);
+    }
 }

@@ -11,10 +11,12 @@ export const decryptTokenPassword = (user: any) => {
         roleId: user.roleId,
     };
     const token = JWT.sign(header, SECRETKEY, { expiresIn: 86400 });
-    return {
-        ...header,
+    const response = {
+        name: user.name,
+        email: user.email,
         token
     };
+    return response;
 }
 
 export const decryptPassWordInput = (passWord: string) => {

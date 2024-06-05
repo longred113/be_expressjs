@@ -35,13 +35,27 @@ export class CategoryController {
         }
     }
 
-    // public updateCategory = async (req: Request, res: Response) => {
-    //     try {
-    //         const { name, categoryId } = req.body;
-    //         await this.CategoryUseCase.adminUpdateCategory(name, parseInt(categoryId, 10));
-    //         return new SendResponse({ message: "Update category successfully" }).send(res);
-    //     } catch (error) {
-    //         return RestError.manageServerError(res, error, false);
-    //     }
-    // }
+    public updateCategory = async (req: Request, res: Response) => {
+        try {
+            const { categoryId } = req.params;
+            const { name } = req.body;
+            const data = await this.CategoryUseCase.adminUpdateCategory(name, parseInt(categoryId, 10));
+            if (data[0] === 0) {
+                return new SendResponse({ message: "Category not found", code: 404, status: "error" }).send(res);
+            }
+            return new SendResponse({ message: "Update category successfully" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public deleteCategory = async (req: Request, res: Response) => {
+        try {
+            const { categoryIds } = req.body;
+            await this.CategoryUseCase.deleteCategory(categoryIds);
+            return new SendResponse({ message: "Delete category successfully" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
 }

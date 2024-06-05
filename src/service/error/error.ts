@@ -12,6 +12,7 @@ export class RestError extends Error {
     }
 
     public static manageServerError(res: Response, err: any, success: boolean = false): Response {
+        console.log(err);
         if (err instanceof RestError) {
             return res.status(err.code || 417).json({
                 status: 'error', message: err.message, code: err.code
