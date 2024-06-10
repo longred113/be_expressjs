@@ -3,8 +3,10 @@ import { SendResponse } from "../../service/success/success";
 import * as JWT from 'jsonwebtoken';
 import { SECRETKEY } from "../../common/common.constants";
 import { RoleSequelize } from "../../database/sequelize/RoleSequelize";
+import { UserSequelize } from "../../database/sequelize/UserSequelize";
 
 const roleSequelize = new RoleSequelize();
+const userSequelize = new UserSequelize();
 export class VerifyTokenMiddleware {
     public authenticate(req: Request, res: Response, next: NextFunction) {
         try {
@@ -38,7 +40,9 @@ export class VerifyTokenMiddleware {
 
     public async permissionsRoleAdmin(req: Request, res: Response, next: NextFunction) {
         const { user }: any = req;
-        const role = await roleSequelize.findRoleById(user.roleId);
+        console.log(user);
+        const userRole = await userSequelize.findById(user.id);
+        const role = await roleSequelize.findRoleById(userRole.roleId);
         if (role && role.name === 'admin') {
             return next();
         }

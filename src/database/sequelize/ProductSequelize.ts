@@ -36,4 +36,17 @@ export class ProductSequelize implements IProductRepository {
             }
         });
     }
+
+    async getProductDetail(productName: string): Promise<ProductInterface | null> {
+        const product = await ProductModel.findOne({
+            where: { name: productName },
+            include: [{
+                model: CategoryModel,
+                as: 'category',
+                attributes: ['name']
+            }]
+        });
+        console.log(product);
+        return product;
+    }
 }

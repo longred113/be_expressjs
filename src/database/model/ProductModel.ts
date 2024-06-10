@@ -9,7 +9,9 @@ import { CategoryModel } from "./CategoryModel";
 
 export class ProductModel extends Model {
     @Column({
-        type: DataType.STRING
+        type: DataType.STRING,
+        unique: true,
+        allowNull: false,
     })
     declare name: string
 

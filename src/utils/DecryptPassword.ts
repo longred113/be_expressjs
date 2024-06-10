@@ -8,7 +8,7 @@ export const decryptTokenPassword = (user: any) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        roleId: user.roleId,
+        // roleId: user.roleId,
     };
     const token = JWT.sign(header, SECRETKEY, { expiresIn: 86400 });
     const response = {

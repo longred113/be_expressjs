@@ -36,4 +36,15 @@ export class ProductController {
             return RestError.manageServerError(res, error, false);
         }
     }
+
+    public getProductDetail = async (req: Request, res: Response) => {
+        try {
+            const { productName } = req.params;
+            const formattedProductName = productName.replace(/-/g, ' ');
+            const product = await this.productUseCase.getProductDetail(formattedProductName);
+            return new SendResponse({ data: product, message: "Product detail" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
 }

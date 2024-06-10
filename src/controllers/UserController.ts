@@ -38,7 +38,7 @@ export class UserController {
     public userProfile = async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.id;
-            const userInfo = await this.userUseCase.userProfile(userId);
+            const userInfo = await this.userUseCase.getUserProfile(userId);
             return new SendResponse({ data: userInfo, message: "User profile" }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);

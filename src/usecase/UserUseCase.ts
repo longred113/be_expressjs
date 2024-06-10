@@ -34,8 +34,8 @@ export class UserUseCase {
         return user;
     }
 
-    async userProfile(userId: number) {
-        const user = await this.userRepository.findById(userId);
-        return user
+    async getUserProfile(userId: number): Promise<UserInterface> {
+        return this.userRepository.findById(userId);
     }
+
 }

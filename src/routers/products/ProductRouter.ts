@@ -10,7 +10,8 @@ const BASE_ROUTE = '/product';
 enum Routes {
     GET_ALL = '/get-all',
     CREATE = '/create',
-    GET_PRODUCT_BY_CATEGORY = '/get-by-category/:categoryId'
+    GET_PRODUCT_BY_CATEGORY = '/get-by-category/:categoryId',
+    GET_PRODUCT_BY_NAME = '/:productName',
 }
 const storage = multer.memoryStorage();  // Lưu trữ file trong bộ nhớ tạm thời
 const upload = multer({ storage: storage });
@@ -21,8 +22,9 @@ export class ProductRouter {
     private productUseCase: ProductUseCase = new ProductUseCase(this.productSequelize);
     private productController: ProductController = new ProductController(this.productUseCase);
     public router(app: Router): void {
-        app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.productController.findAllProduct);
+        app.get(BASE_ROUTE + Routes.GET_ALL, this.productController.findAllProduct);
         app.post(BASE_ROUTE + Routes.CREATE, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, upload.array('image', 10), this.productController.createProduct);
-        app.get(BASE_ROUTE + Routes.GET_PRODUCT_BY_CATEGORY, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.productController.findProductByCategory);
+        app.get(BASE_ROUTE + Routes.GET_PRODUCT_BY_CATEGORY, this.productController.findProductByCategory);
+        app.get(BASE_ROUTE + Routes.GET_PRODUCT_BY_NAME, this.productController.getProductDetail);
     }
 }

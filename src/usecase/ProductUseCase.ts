@@ -30,4 +30,8 @@ export class ProductUseCase {
     getProductByCategoryId(categoryId: number): Promise<ProductInterface[]> {
         return this.productRepository.getProductByCategory(categoryId);
     }
+
+    getProductDetail(productName: string): Promise<ProductInterface | null> {
+        return this.productRepository.getProductDetail(productName);
+    }
 }
