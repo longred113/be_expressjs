@@ -40,7 +40,6 @@ export class VerifyTokenMiddleware {
 
     public async permissionsRoleAdmin(req: Request, res: Response, next: NextFunction) {
         const { user }: any = req;
-        console.log(user);
         const userRole = await userSequelize.findById(user.id);
         const role = await roleSequelize.findRoleById(userRole.roleId);
         if (role && role.name === 'admin') {

@@ -1,6 +1,7 @@
-import { AllowNull, BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Col } from "sequelize/types/utils";
 import { CategoryModel } from "./CategoryModel";
+import { CartModel } from "./CartModel";
 
 @Table({
     tableName: 'products',
@@ -48,4 +49,7 @@ export class ProductModel extends Model {
     declare categoryId: number;
     @BelongsTo(() => CategoryModel)
     category?: CategoryModel;
+
+    @HasMany(() => CartModel)
+    carts?: CartModel
 }

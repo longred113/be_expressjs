@@ -1,5 +1,6 @@
-import { AllowNull, AutoIncrement, BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, AutoIncrement, BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
 import { RoleModel } from "./RoleModel";
+import { CartModel } from "./CartModel";
 
 
 @Table({
@@ -57,4 +58,7 @@ export class UserModel extends Model {
         type: DataType.DATE,
     })
     declare updated_at: Date;
+
+    @HasMany(() => CartModel)
+    carts?: CartModel;
 }

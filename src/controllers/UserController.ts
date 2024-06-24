@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UserUseCase } from '../usecase/UserUseCase';
 import { SendResponse } from '../service/success/success';
 import { RestError } from '../service/error/error';
+import { redisController } from '../redis/RedisController';
 
 export class UserController {
 
@@ -49,6 +50,58 @@ export class UserController {
         try {
             const userId = (req as any).user.id;
             // await this.userUseCase.userLogout(userId);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public setRedisExample = async (req: Request, res: Response) => {
+        try {
+            const keyModel = 'user';
+            const keyValue = '123';
+            const value = { name: 'John Doe', age: 30 };
+
+            const data = await redisController.setRedis({ keyModel, keyValue, value });
+            return new SendResponse({ data: data }).send(res);
+
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public getRedisExample = async (req: Request, res: Response) => {
+        try {
+            const keyModel = 'user';
+            const keyValue = '123';
+            const value = await redisController.getRedis({ keyModel, keyValue });
+            return new SendResponse({ data: value }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public setHashExample = async (req: Request, res: Response) => {
+        try {
+            const hasKey = 'cookie';
+            const key = 'user_456';
+            const values = { token: 'abcdef123456', userId: 456 };
+
+            await redisController.setHasRedis({ hasKey, key, values });
+
+            return new SendResponse({ data: 'Hash set successfully!' }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public getHashExample = async (req: Request, res: Response) => {
+        try {
+            const hasKey = 'cookie';
+            const key = 'user_456';
+
+            const result = await redisController.getHasRedis({ hasKey, key });
+
+            return new SendResponse({ data: result }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);
         }

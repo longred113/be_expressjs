@@ -5,7 +5,6 @@ import { ProductModel } from "../model/ProductModel";
 
 export class ProductSequelize implements IProductRepository {
     async createProduct(reqBody: ProductInterface): Promise<ProductInterface> {
-        console.log(reqBody);
         const { name, description, price, inventory_number, producer, categoryId, image } = reqBody;
         const product = await ProductModel.create({
             name, description, price, inventory_number, producer, categoryId, image
