@@ -17,7 +17,7 @@ App.get('/', (req: Request, res: Response) => {
 });
 
 
-sequelize.sync({ force: false, alter: true });
+sequelize.sync({ force: false, alter: false });
 
 httpServer.listen(port, () => {
     console.log(`Running API on port : ${port}`);

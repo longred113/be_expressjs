@@ -27,7 +27,6 @@ export class UserModel extends Model {
 
     @Column({
         type: DataType.STRING,
-        unique: true,
     })
     declare password: string;
 

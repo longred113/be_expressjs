@@ -9,14 +9,15 @@ export class CartSequelize implements ICartRepository {
         return await CartModel.create({ userId, productId, quantity });
     }
 
-    async getCart(userId: number): Promise<CartInterface[] | null> {
+    async getCart(userId: number): Promise<any | null> {
         const cart = await CartModel.findAll({
             where: { userId },
             include: [{
                 model: ProductModel,
                 as: 'product',
                 attributes: ['name', 'price']
-            }]
+            }],
+            attributes: ['quantity']
         });
         return cart;
     }

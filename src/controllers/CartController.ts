@@ -20,7 +20,17 @@ export class CartController {
         try {
             const userId = (req as any).user.id;
             const cart = await this.cartUseCase.getCart(userId);
-            return new SendResponse({ data: cart, message: "Get cart successfully!" }).send(res);
+            const carts = cart?.map(item => {
+                const price = item.product.price;
+                const total = item.quantity * price;
+                return {
+                    productName: item.product.name,
+                    quantity: item.quantity,
+                    price: item.product.price,
+                    total: total
+                }
+            })
+            return new SendResponse({ data: carts, message: "Get cart successfully!" }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);
         }
