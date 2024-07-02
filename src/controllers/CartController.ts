@@ -21,12 +21,14 @@ export class CartController {
             const userId = (req as any).user.id;
             const cart = await this.cartUseCase.getCart(userId);
             const carts = cart?.map(item => {
+                console.log(item);
                 const price = item.product.price;
                 const total = item.quantity * price;
                 return {
                     productName: item.product.name,
                     quantity: item.quantity,
                     price: item.product.price,
+                    image: item.product.image?.[0] || null,
                     total: total
                 }
             })

@@ -15,7 +15,7 @@ export class CartSequelize implements ICartRepository {
             include: [{
                 model: ProductModel,
                 as: 'product',
-                attributes: ['name', 'price']
+                attributes: ['name', 'price', 'image']
             }],
             attributes: ['quantity']
         });

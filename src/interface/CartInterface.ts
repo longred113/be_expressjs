@@ -6,5 +6,6 @@ export interface CartInterface {
     product: {
         name: string
         price: number
+        image: string
     }
 }
