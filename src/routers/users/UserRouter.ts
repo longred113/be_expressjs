@@ -27,9 +27,9 @@ export class UsersRouter {
         app.post(BASE_ROUTE + Routes.LOGIN, this.validateValue.validateLogin, this.userController.login);
         app.get(BASE_ROUTE + Routes.GET_ALL, this.verifyTokenMiddleware.authenticate, this.verifyTokenMiddleware.permissionsRoleAdmin, this.userController.getAllUser);
         app.get(BASE_ROUTE + Routes.PROFILE, this.verifyTokenMiddleware.authenticate, this.userController.userProfile);
-        app.get(BASE_ROUTE + Routes.REDIS, this.userController.getRedisExample);
+        // app.get(BASE_ROUTE + Routes.REDIS, this.userController.getRedisExample);
         // app.get(BASE_ROUTE + Routes.REDIS, this.userController.setRedisExample);
-        // app.get(BASE_ROUTE + Routes.HASH_REDIS, this.userController.setHashExample);
-        app.get(BASE_ROUTE + Routes.HASH_REDIS, this.userController.getHashExample);
+        app.get(BASE_ROUTE + Routes.HASH_REDIS, this.userController.setHashExample);
+        // app.get(BASE_ROUTE + Routes.HASH_REDIS, this.userController.getHashExample);
     }
 }

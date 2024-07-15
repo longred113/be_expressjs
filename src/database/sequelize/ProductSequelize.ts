@@ -45,7 +45,6 @@ export class ProductSequelize implements IProductRepository {
                 attributes: ['name']
             }]
         });
-        console.log(product);
         return product;
     }
 }

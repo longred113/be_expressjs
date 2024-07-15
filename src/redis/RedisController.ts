@@ -19,6 +19,12 @@ interface RedisModel {
     timer?: number; // The timer for the Redis cache
 }
 
+interface RedisEx {
+    key: string;
+    field: string;
+    increment: number;
+}
+
 // Define the RedisController class
 class RedisController {
     private REDIS_URL: string = process.env.REDIS_URI as string; // The URL of the Redis server
@@ -72,6 +78,15 @@ class RedisController {
     // Clear a hash in Redis using a key
     async clearHashRedis(key: string) {
         return await this.client.del(JSON.stringify(key)); // Delete the hash in Redis
+    }
+
+    async addToCart({ key, field, increment }: RedisEx) {
+        return await this.client.HINCRBY(key, field, increment);
+    }
+
+    async getCart({ key }: any) {
+        const result = await this.client.hGetAll(key);
+        return result;
     }
 }
 

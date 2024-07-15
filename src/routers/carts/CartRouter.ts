@@ -9,7 +9,8 @@ const BASE_ROUTE = '/cart';
 
 enum Routes {
     CREATE = '/create',
-    GET_CART = '/get-cart'
+    GET_CART = '/get-cart',
+    ADD_TO_CART = '/add-to-cart',
 }
 export class CartRouter {
     private verifyTokenMiddleware: VerifyTokenMiddleware = new VerifyTokenMiddleware();
@@ -18,6 +19,7 @@ export class CartRouter {
     private cartController: CartController = new CartController(this.cartUseCase);
     public router(app: Router): void {
         app.post(BASE_ROUTE + Routes.CREATE, this.cartController.createCart);
-        app.get(BASE_ROUTE + Routes.GET_CART, this.verifyTokenMiddleware.authenticate, this.cartController.getCart);
+        app.get(BASE_ROUTE + Routes.GET_CART, this.verifyTokenMiddleware.authenticate, this.cartController.getCartUser);
+        app.post(BASE_ROUTE + Routes.ADD_TO_CART, this.verifyTokenMiddleware.authenticate, this.cartController.addToCart);
     }
 }

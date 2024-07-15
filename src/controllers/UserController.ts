@@ -82,9 +82,9 @@ export class UserController {
 
     public setHashExample = async (req: Request, res: Response) => {
         try {
-            const hasKey = 'cookie';
+            const hasKey = 'cart';
             const key = 'user_456';
-            const values = { token: 'abcdef123456', userId: 456 };
+            const values = { token: 'abcdef123456', userId: 422 };
 
             await redisController.setHasRedis({ hasKey, key, values });
 

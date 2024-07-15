@@ -2,6 +2,7 @@ import { RestError } from "../service/error/error";
 import { CartUseCase } from "../usecase/CartUseState";
 import { SendResponse } from "../service/success/success";
 import { Request, Response } from "express";
+import { redisController } from "../redis/RedisController";
 
 export class CartController {
     constructor(private cartUseCase: CartUseCase) { }
@@ -21,7 +22,6 @@ export class CartController {
             const userId = (req as any).user.id;
             const cart = await this.cartUseCase.getCart(userId);
             const carts = cart?.map(item => {
-                console.log(item);
                 const price = item.product.price;
                 const total = item.quantity * price;
                 return {
@@ -37,4 +37,28 @@ export class CartController {
             return RestError.manageServerError(res, error, false);
         }
     }
+
+    public addToCart = async (req: Request, res: Response) => {
+        try {
+            const { productId, quantity } = req.body;
+            const key = `cart:${(req as any).user.id}`;
+            const field = `productId:${productId}`;
+            const increment = quantity;
+            const data = await redisController.addToCart({ key, field, increment });
+            return new SendResponse({ data: data }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public getCartUser = async (req: Request, res: Response) => {
+        try {
+            const key = `cart:${(req as any).user.id}`;
+            const value = await redisController.getCart({ key });
+            return new SendResponse({ data: value }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
 }
