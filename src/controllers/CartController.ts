@@ -3,9 +3,10 @@ import { CartUseCase } from "../usecase/CartUseState";
 import { SendResponse } from "../service/success/success";
 import { Request, Response } from "express";
 import { redisController } from "../redis/RedisController";
+import { ProductUseCase } from "../usecase/ProductUseCase";
 
 export class CartController {
-    constructor(private cartUseCase: CartUseCase) { }
+    constructor(private cartUseCase: CartUseCase, private productUseCase: ProductUseCase) { }
 
     public createCart = async (req: Request, res: Response) => {
         try {
@@ -55,7 +56,33 @@ export class CartController {
         try {
             const key = `cart:${(req as any).user.id}`;
             const value = await redisController.getCart({ key });
-            return new SendResponse({ data: value }).send(res);
+            const cartItems = await Promise.all(Object.keys(value).map(async (item) => {
+                const [_, productId] = item.split(':');
+                const productData = await this.productUseCase.getProductById(parseInt(productId));
+                return {
+                    productData: productData,
+                    quantity: parseInt(value[item], 10)
+                }
+            }));
+            const totalPrice = cartItems.reduce((total, item) => {
+                return total + (item.productData!.price * item.quantity!);
+            }, 0);
+            const responseData = {
+                cartItems: cartItems,
+                totalPrice: totalPrice
+            };
+            return new SendResponse({ data: responseData }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public deleteCart = async (req: Request, res: Response) => {
+        try {
+            const productId = req.params.productId;
+            const key = `cart:${(req as any).user.id}`;
+            await redisController.clearCart(key, productId);
+            return new SendResponse({ message: "Delete cart successfully!" }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);
         }

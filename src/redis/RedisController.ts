@@ -19,6 +19,10 @@ interface RedisModel {
     timer?: number; // The timer for the Redis cache
 }
 
+interface redisTest {
+    key: string;
+}
+
 interface RedisEx {
     key: string;
     field: string;
@@ -47,9 +51,9 @@ class RedisController {
     }
 
     // Disconnect from the Redis server
-    async disconnectRedist() {
-        await this.client.quit();
-    }
+    // async disconnectRedist() {
+    //     await this.client.quit();
+    // }
 
     // Get a value from Redis using a key model and key value
     async getRedis({ keyModel, keyValue }: RedisModel) {
@@ -87,6 +91,11 @@ class RedisController {
     async getCart({ key }: any) {
         const result = await this.client.hGetAll(key);
         return result;
+    }
+
+    async clearCart(key: string, productId: string) {
+        const field = `productId:${productId}`;
+        return await this.client.hDel(key, field);
     }
 }
 

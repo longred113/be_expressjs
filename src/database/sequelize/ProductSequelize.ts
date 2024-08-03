@@ -47,4 +47,8 @@ export class ProductSequelize implements IProductRepository {
         });
         return product;
     }
+
+    async getProductById(productId: number): Promise<ProductInterface | null> {
+        return await ProductModel.findByPk(productId);
+    }
 }

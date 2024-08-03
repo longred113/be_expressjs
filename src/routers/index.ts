@@ -1,3 +1,4 @@
+import { AddressRouter } from "./carts/AddressRouter";
 import { CartRouter } from "./carts/CartRouter";
 import { CategoryRouter } from "./products/CategoryRouter";
 import { ProductRouter } from "./products/ProductRouter";
@@ -12,6 +13,7 @@ export class Routes {
     public categoryRouter: CategoryRouter = new CategoryRouter();
     public productRouter: ProductRouter = new ProductRouter();
     public cartRouter: CartRouter = new CartRouter();
+    public addressRouter: AddressRouter = new AddressRouter();
 
     public routes(app: Router): Router {
         this.usersRouter.router(app);
@@ -19,6 +21,7 @@ export class Routes {
         this.categoryRouter.router(app);
         this.productRouter.router(app);
         this.cartRouter.router(app);
+        this.addressRouter.router(app);
         return Router();
     }
 }
