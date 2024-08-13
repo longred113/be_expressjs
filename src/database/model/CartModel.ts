@@ -1,6 +1,7 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { UserModel } from "./UserModel";
 import { ProductModel } from "./ProductModel";
+import { Json } from "sequelize/types/utils";
 
 @Table({
     tableName: 'carts',
@@ -17,16 +18,11 @@ export class CartModel extends Model {
     user?: UserModel;
 
     @Column({
-        type: DataType.INTEGER
+        type: DataType.JSON,
     })
-    @ForeignKey(() => ProductModel)
-    declare productId: number;
-
-    @BelongsTo(() => ProductModel)
-    product?: ProductModel;
-
+    declare cartInfo: JSON;
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.JSON,
     })
-    declare quantity: number;
+    declare products: JSON;
 }

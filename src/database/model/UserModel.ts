@@ -1,6 +1,7 @@
 import { AllowNull, AutoIncrement, BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
 import { RoleModel } from "./RoleModel";
 import { CartModel } from "./CartModel";
+import { UserInfoModel } from "./UserInfoModel";
 
 
 @Table({
@@ -60,4 +61,7 @@ export class UserModel extends Model {
 
     @HasMany(() => CartModel)
     carts?: CartModel;
+
+    @HasMany(() => UserInfoModel)
+    userInfo?: UserInfoModel;
 }

@@ -51,9 +51,9 @@ class RedisController {
     }
 
     // Disconnect from the Redis server
-    // async disconnectRedist() {
-    //     await this.client.quit();
-    // }
+    async disconnectRedist() {
+        await this.client.quit();
+    }
 
     // Get a value from Redis using a key model and key value
     async getRedis({ keyModel, keyValue }: RedisModel) {
@@ -93,7 +93,11 @@ class RedisController {
         return result;
     }
 
-    async clearCart(key: string, productId: string) {
+    async clearCart(key: string) {
+        return await this.client.del(key);
+    }
+
+    async deleteCartItem(key: string, productId: string) {
         const field = `productId:${productId}`;
         return await this.client.hDel(key, field);
     }

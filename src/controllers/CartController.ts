@@ -10,8 +10,9 @@ export class CartController {
 
     public createCart = async (req: Request, res: Response) => {
         try {
-            const { userId, productId, quantity } = req.body
-            await this.cartUseCase.createCart(userId, productId, quantity);
+            const userId = (req as any).user.id;
+            const { products, cartInfo } = req.body
+            await this.cartUseCase.createCart(userId, products, cartInfo);
             return new SendResponse({ message: "Add to cart successfully!" }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);
@@ -61,7 +62,7 @@ export class CartController {
                 const productData = await this.productUseCase.getProductById(parseInt(productId));
                 return {
                     productData: productData,
-                    quantity: parseInt(value[item], 10)
+                    quantity: parseInt(value[item], 10),
                 }
             }));
             const totalPrice = cartItems.reduce((total, item) => {
@@ -79,13 +80,44 @@ export class CartController {
 
     public deleteCart = async (req: Request, res: Response) => {
         try {
-            const productId = req.params.productId;
+            // const productId = req.params.productId;
             const key = `cart:${(req as any).user.id}`;
-            await redisController.clearCart(key, productId);
+            await redisController.clearCart(key);
             return new SendResponse({ message: "Delete cart successfully!" }).send(res);
         } catch (error) {
             return RestError.manageServerError(res, error, false);
         }
     }
 
+    public deleteCartItem = async (req: Request, res: Response) => {
+        try {
+            const productId = req.params.productId;
+            const key = `cart:${(req as any).user.id}`;
+            await redisController.deleteCartItem(key, productId);
+            return new SendResponse({ message: "Delete cart item successfully!" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
+
+    public updateCartQuantity = async (req: Request, res: Response) => {
+        try {
+            const { productId, quantity, type } = req.body;
+            const key = `cart:${(req as any).user.id}`;
+            const field = `productId:${productId}`;
+            let increment: number;
+            if (type === "increment") {
+                increment = quantity;
+            }
+            else if (type === "decrement") {
+                increment = -1 * quantity;
+            } else {
+                increment = 0
+            }
+            await redisController.addToCart({ key, field, increment });
+            return new SendResponse({ message: "Update cart successfully!" }).send(res);
+        } catch (error) {
+            return RestError.manageServerError(res, error, false);
+        }
+    }
 }

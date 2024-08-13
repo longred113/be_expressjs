@@ -49,7 +49,4 @@ export class ProductModel extends Model {
     declare categoryId: number;
     @BelongsTo(() => CategoryModel)
     category?: CategoryModel;
-
-    @HasMany(() => CartModel)
-    carts?: CartModel
 }

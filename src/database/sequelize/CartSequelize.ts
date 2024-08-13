@@ -5,8 +5,8 @@ import { CartModel } from "../model/CartModel";
 import { ProductModel } from "../model/ProductModel";
 
 export class CartSequelize implements ICartRepository {
-    async createCart(userId: number, productId: number, quantity: number): Promise<any> {
-        return await CartModel.create({ userId, productId, quantity });
+    async createCart(userId: number, products: JSON, cartInfo: JSON): Promise<any> {
+        return await CartModel.create({ userId, products, cartInfo });
     }
 
     async getCart(userId: number): Promise<any | null> {
