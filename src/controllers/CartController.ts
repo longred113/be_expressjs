@@ -91,7 +91,7 @@ export class CartController {
 
     public deleteCartItem = async (req: Request, res: Response) => {
         try {
-            const productId = req.params.productId;
+            const { productId } = req.body;
             const key = `cart:${(req as any).user.id}`;
             await redisController.deleteCartItem(key, productId);
             return new SendResponse({ message: "Delete cart item successfully!" }).send(res);

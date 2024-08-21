@@ -31,7 +31,7 @@ interface RedisEx {
 
 // Define the RedisController class
 class RedisController {
-    private REDIS_URL: string = process.env.REDIS_URI as string; // The URL of the Redis server
+    private REDIS_URL: string = process.env.REDIS_URL as string; // The URL of the Redis server
     private TIMER: number = 3600; // The timer for the Redis cache (in seconds)
     private client: redis.RedisClientType; // The Redis client
 
