@@ -3,6 +3,7 @@ import { UserInterface } from "../../interface/UserInterface";
 import { IUserRepository } from "../../repository/userRepository";
 import { UserModel } from "../model/UserModel";
 import { RoleModel } from "../model/RoleModel";
+import { UserInfoModel } from "../model/UserInfoModel";
 
 export class UserSequelize implements IUserRepository {
 
@@ -35,7 +36,15 @@ export class UserSequelize implements IUserRepository {
     }
 
     async findById(userId: number): Promise<any> {
-        const user = await UserModel.findByPk(userId, { attributes: { exclude: ['password'] } });
+        const user = await UserModel.findByPk(userId, {
+            attributes: {
+                exclude: ['password', 'roleId', 'remember_token', 'id'],
+            },
+            include: [{
+                model: UserInfoModel,
+                as: 'userInfo',
+            }]
+        });
         return user;
     }
 
