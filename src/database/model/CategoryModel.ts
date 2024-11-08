@@ -1,5 +1,6 @@
 import { AutoIncrement, Column, CreatedAt, DataType, HasMany, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
 import { ProductModel } from "./ProductModel";
+import { ChildCateModel } from "./ChildCateModel";
 
 @Table({
     tableName: 'categories',
@@ -10,6 +11,8 @@ export class CategoryModel extends Model {
 
     @HasMany(() => ProductModel)
     products?: ProductModel;
+    @HasMany(() => ChildCateModel)
+    childCates?: ChildCateModel;
 
     @Column({
         type: DataType.STRING,

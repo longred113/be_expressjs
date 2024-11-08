@@ -1,6 +1,7 @@
 import { CategoryInterface } from "../../interface/CategoryInterface";
 import { ICategoryRepository } from "../../repository/categoryRepository";
 import { CategoryModel } from "../model/CategoryModel";
+import { ChildCateModel } from "../model/ChildCateModel";
 
 export class CategorySequelize implements ICategoryRepository {
 
@@ -9,7 +10,14 @@ export class CategorySequelize implements ICategoryRepository {
     }
 
     async findAllCategories(): Promise<any> {
-        return await CategoryModel.findAll();
+        return await CategoryModel.findAll(
+            {
+                include: [{
+                    model: ChildCateModel,
+                    as: 'childCates',
+                }]
+            }
+        );
     }
 
     async findCategoryById(categoryId: number): Promise<any> {

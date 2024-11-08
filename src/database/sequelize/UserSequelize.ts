@@ -38,7 +38,7 @@ export class UserSequelize implements IUserRepository {
     async findById(userId: number): Promise<any> {
         const user = await UserModel.findByPk(userId, {
             attributes: {
-                exclude: ['password', 'roleId', 'remember_token', 'id'],
+                exclude: ['password', 'remember_token', 'id'],
             },
             include: [{
                 model: UserInfoModel,
